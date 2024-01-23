@@ -1,0 +1,22 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+df['target'] = iris.target
+
+# Split the data into features and target
+X = df.drop('target', axis=1)
+y = df['target']
+
+# Split the data into training and inference sets
+X_train, X_inference, y_train, y_inference = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Save the processed data locally in CSV format
+X_train.to_csv('training_features.csv', index=False)
+y_train.to_csv('training_target.csv', index=False, header='target')
+
+X_inference.to_csv('inference_features.csv', index=False)
+y_inference.to_csv('inference_target.csv', index=False, header='target')
